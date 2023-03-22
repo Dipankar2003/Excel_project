@@ -21,13 +21,13 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item ">
-          <a class="nav-link" href="homepage.html">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="/loginUser/home">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item ">
-          <a class="nav-link" href="upload.html">Upload</a>
+          <a class="nav-link" href="/loginUser/upload">Upload</a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" href="addcourse.html">Add course</a>
+          <a class="nav-link" href="/loginUser/addcourse">Add course</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#">Logout</a>
@@ -43,22 +43,22 @@
     
     <hr >
     <div class="content">
-      <form action="#">
+      <form action="/loginUser/addcourse" method="post">
         <div class="form-group">
             <label for="exampleInputEmail1">Course name</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Course name">
+            <input type="text" name="CName" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Course name">
            
           </div>
 
           <div class="form-group">
             <label for="exampleInputEmail1">Course code</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Course code">
+            <input type="text" name="CCode" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Course code">
            
           </div>
 
 
               <label for="">Year</label>
-          <select class="form-control" name="sem" id="sem" onchange="populate(this.id,'subject')">
+          <select name="CYear" class="form-control" name="sem" id="sem" onchange="populate(this.id,'subject')">
             <option>--Select Year--</option>
             <option>First Year</option>
             <option>Seocnd Year</option>

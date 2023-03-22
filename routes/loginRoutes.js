@@ -5,7 +5,7 @@ const express = require("express");
 const Router = express.Router();
 
 //Home page routing
-Router.route("/").get();
+Router.route("/").get(loginControllers.protect, loginControllers.getHomePage);
 Router.route("/login")
   .get(loginControllers.getLoginPage)
   .post(loginControllers.postLoginData);

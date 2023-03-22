@@ -6,6 +6,10 @@ exports.getRegisterPage = (req, res) => {
   res.render("registerPage");
 };
 
+exports.getHomePage = (req, res) => {
+  res.render("home");
+};
+
 exports.saveRegisterData = async (req, res) => {
   const { FID, email, password, confirmPassword } = req.body;
 
@@ -41,6 +45,11 @@ exports.getLoginPage = (req, res) => {
   res.render("loginpage");
 };
 
+let correctPassword = async function (enterPassword, userPassword) {
+  const bo = await brcypt.compare(enterPassword, userPassword);
+  return bo;
+};
+
 exports.postLoginData = async (req, res) => {
   const { FID, password } = req.body;
   const exist = await facultyModel.findOne({ FID });
@@ -48,5 +57,40 @@ exports.postLoginData = async (req, res) => {
     const msg = "Please first register";
     res.render("registerPage", { msg });
   } else {
+    if (exist || correctPassword(password, exist.password)) {
+      const secret = "my-secret-string-used-in-formation-of-token";
+      const expiresIn = 3 * 24 * 60 * 60;
+      const token = jwt.sign({ id: exist._id }, secret, {
+        expiresIn,
+      });
+
+      res.cookie("jwt", token, {
+        httpOnly: true,
+        expiresIn: expiresIn * 1000,
+      });
+      console.log("done");
+
+      res.status(201).redirect("/loginUser/home");
+    }
+  }
+};
+
+exports.protect = async (req, res, next) => {
+  let token;
+
+  token = req.cookies.jwt;
+
+  if (!token) {
+    res.redirect("/login");
+  } else {
+    const secret = "my-secret-string-used-in-formation-of-token";
+
+    jwt.verify(token, secret, (err, decoded) => {
+      if (err) {
+        res.redirect("/login");
+      } else {
+        next();
+      }
+    });
   }
 };
